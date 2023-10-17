@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -8,12 +9,17 @@ public class GameManager : MonoBehaviour
     public static GameManager thisManager = null;  
     [SerializeField] private Text Txt_Score = null;
     [SerializeField] private Text Txt_Message = null;
-    private int Score = 0;
+    public int Score = 0;
+
+    public GameObject obstacleSpawner;
+
+    public GameObject Background;
 
     void Start()
     {
         thisManager = this;
         Time.timeScale = 0;
+        Background.GetComponent<ScrollingBG>().enabled = false;
     }
 
     void Update()
@@ -34,6 +40,8 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
         Txt_Message.text = "";
         Txt_Score.text = "SCORE : 0";
+        obstacleSpawner.SetActive(true);
+        Background.GetComponent<ScrollingBG>().enabled = true;
     }
 
     public void GameOver()
@@ -42,4 +50,9 @@ public class GameManager : MonoBehaviour
         Txt_Message.text = "GAMEOVER! \nPRESS ENTER TO RESTART GAME.";
         Txt_Message.color = Color.red;
     }
+    public void Restart()
+    {
+        SceneManager.LoadScene("Gameplay");
+    }
+
 }
